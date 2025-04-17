@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Manrope } from "next/font/google";
 import "./globals.css";
+import { Toaster } from "sonner";
 
 const manrope = Manrope({
   variable: "--font-manrope",
@@ -8,8 +9,8 @@ const manrope = Manrope({
 });
 
 export const metadata: Metadata = {
-  title: "PrepWise",
-  description: "An AI-powered learning platform",
+  title: "Собеседник",
+  description: "Обучающая платформа на базе ИИ",
 };
 
 export default function RootLayout({
@@ -19,8 +20,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ru" className="dark">
-      <body className={`${manrope.className} antialiased`}>
+      <body className={`${manrope.className} antialiased pattern`}>
         {children}
+        
+        <Toaster />
       </body>
     </html>
   );
