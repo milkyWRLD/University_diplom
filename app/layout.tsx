@@ -22,7 +22,7 @@ export default function RootLayout({
     <html lang="ru" className="dark">
       <body className={`${manrope.className} antialiased pattern`}>
         {children}
-        
+
         <Toaster />
       </body>
     </html>
