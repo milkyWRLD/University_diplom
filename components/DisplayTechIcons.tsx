@@ -1,10 +1,10 @@
-import { getTechLogos } from "@/lib/utils";
+import { getTechLogos } from "@/lib/utils"; // Получение логотипов технологий
 import React from "react";
 import Image from "next/image";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils"; // Утилита для объединения классов
 
 const DisplayTechIcons = async ({ techStack }: TechIconProps) => {
-  const techIcons = await getTechLogos(techStack);
+  const techIcons = await getTechLogos(techStack); // Асинхронно получаем иконки по techStack
 
   return (
     <div className="flex flex-row">
@@ -13,16 +13,17 @@ const DisplayTechIcons = async ({ techStack }: TechIconProps) => {
           key={tech}
           className={cn(
             "relative group bg-dark-300 rounded-full p-2 flex-center",
-            index >= 1 && "-ml-3"
+            index >= 1 && "-ml-3" // Смещаем иконки для перекрытия, начиная со второй
           )}
         >
-          <span className="tech-tooltip">{tech}</span>
+          <span className="tech-tooltip">{tech}</span>{" "}
+          {/* Всплывающая подсказка */}
           <Image
             src={url}
             alt={tech}
             width={100}
             height={100}
-            className="size-6"
+            className="size-6" // Ограничиваем размер изображения
           ></Image>
         </div>
       ))}
