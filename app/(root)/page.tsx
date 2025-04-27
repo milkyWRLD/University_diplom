@@ -5,8 +5,23 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { dummyInterviews } from "@/constants";
 import InterviewCard from "@/components/InterviewCard";
+import {
+  getCurrentUser,
+  getInterviewsByUserId,
+  getLatestInterviews,
+} from "@/lib/actions/auth.action";
 
-const page = () => {
+const page = async () => {
+  const user = await getCurrentUser();
+
+  const [userInterviews, latestInterviews] = await Promise.all([
+    getInterviewsByUserId(user?.id!),
+    getLatestInterviews({ userId: user?.id! }),
+  ]);
+
+  const hasPastInterviews = userInterviews?.length > 0;
+  const hasUpcomingInterviews = latestInterviews?.length > 0;
+
   return (
     <>
       <section className="card-cta">
@@ -38,11 +53,13 @@ const page = () => {
         <h2>Ваши последние собеседования</h2>
 
         <div className="interviews-section">
-          {dummyInterviews.map((interview) => (
-            <InterviewCard {...interview} key={interview.id} />
-          ))}
-
-          {/* <p>Вы ещё не прошли ни одного собеседования</p> */}
+          {hasPastInterviews ? (
+            userInterviews?.map((interview) => (
+              <InterviewCard {...interview} key={interview.id} />
+            ))
+          ) : (
+            <p>Вы ещё не прошли ни одного собеседования</p>
+          )}
         </div>
       </section>
 
@@ -50,15 +67,19 @@ const page = () => {
         <h2>Пройдите собеседование</h2>
 
         <div className="interviews-section">
-          {dummyInterviews.map((interview) => (
-            <InterviewCard {...interview} key={interview.id} />
-          ))}
+          {hasUpcomingInterviews ? (
+              latestInterviews?.map((interview) => (
+                <InterviewCard {...interview} key={interview.id} />
+              ))
+            ) : (
+              <p>Здесь ещё нет доступных собеседований</p>
+          )}
 
-          {/* <p>Здесь ещё нет доступных собеседований</p> */}
         </div>
       </section>
     </>
   );
-};
+}
+
 
 export default page;
