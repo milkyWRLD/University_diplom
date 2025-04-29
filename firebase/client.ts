@@ -9,13 +9,13 @@ import { getFirestore } from "firebase/firestore";
 // Конфигурация вашего веб-приложения Firebase
 // Для SDK версии 7.20.0 и выше measurementId — необязательный параметр
 const firebaseConfig = {
-  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
-  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
-  measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
+  apiKey: "AIzaSyAMriTFQuGEHbhpSTbB0CRSkbW3jP3H4bg", // Ключ API вашего проекта
+   authDomain: "sobesednik-591c5.firebaseapp.com", // Домен для авторизации
+   projectId: "sobesednik-591c5", // ID проекта
+   storageBucket: "sobesednik-591c5.firebasestorage.app", // Хранилище файлов (bucket)
+   messagingSenderId: "1083206102974", // ID отправителя сообщений
+   appId: "1:1083206102974:web:3bf202f825aa01cbeb13ef", // Идентификатор приложения
+   measurementId: "G-64LNZB8QVZ" // Идентификатор для аналитики (необязателен)
 };
 
 // Инициализируем Firebase-приложение, если оно ещё не было создано
