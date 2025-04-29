@@ -25,6 +25,8 @@ const Feedback = async ({ params }: RouteParams) => {
     userId: user?.id!,
   });
 
+  console.log(feedback);
+
   return (
     <section className="section-feedback">
       <div className="flex flex-row justify-center">
@@ -102,7 +104,7 @@ const Feedback = async ({ params }: RouteParams) => {
         <Button className="btn-secondary flex-1">
           <Link href="/" className="flex w-full justify-center">
             <p className="text-sm font-semibold text-primary-200 text-center">
-              Вернуться в панель управления
+              Вернуться на главную
             </p>
           </Link>
         </Button>
@@ -113,7 +115,7 @@ const Feedback = async ({ params }: RouteParams) => {
             className="flex w-full justify-center"
           >
             <p className="text-sm font-semibold text-black text-center">
-              Пройти интервью заново
+              Пройти собеседование заново
             </p>
           </Link>
         </Button>

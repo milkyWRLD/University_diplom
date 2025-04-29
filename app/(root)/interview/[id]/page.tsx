@@ -21,7 +21,7 @@ const InterviewDetails = async ({ params }: RouteParams) => {
 
   const feedback = await getFeedbackByInterviewId({
     interviewId: id,
-    userId: user?.id!,
+    userId: user?.name || "",
   });
 
   return (
@@ -36,7 +36,7 @@ const InterviewDetails = async ({ params }: RouteParams) => {
               height={40}
               className="rounded-full object-cover size-[40px]"
             />
-            <h3 className="capitalize">{interview.role} - Собеседование</h3>
+            <h3 className="capitalize">{interview.role} - собеседование</h3>
           </div>
 
           <DisplayTechIcons techStack={interview.techstack} />
@@ -48,7 +48,7 @@ const InterviewDetails = async ({ params }: RouteParams) => {
       </div>
 
       <Agent
-        userName={user?.name!}
+        userName={user?.name || ""}
         userId={user?.id}
         interviewId={id}
         type="interview"

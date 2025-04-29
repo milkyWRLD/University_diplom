@@ -26,7 +26,7 @@ const InterviewCard = async ({
         })
       : null;
 
-  const normalizedType = /mix/gi.test(type) ? "Смешанное" : type;
+  const normalizedType = /mix/gi.test(type) ? "Mixed" : type;
 
   const badgeColor =
     {
@@ -50,13 +50,13 @@ const InterviewCard = async ({
               badgeColor
             )}
           >
-            <p className="badge-text">{normalizedType}</p>
+            <p className="badge-text ">{normalizedType}</p>
           </div>
 
           {/* Обложка собеседования */}
           <Image
             src={getRandomInterviewCover()}
-            alt="обложка-интервью"
+            alt="cover-image"
             width={90}
             height={90}
             className="rounded-full object-fit size-[90px]"
@@ -72,13 +72,13 @@ const InterviewCard = async ({
                 src="/calendar.svg"
                 width={22}
                 height={22}
-                alt="календарь"
+                alt="calendar"
               />
               <p>{formattedDate}</p>
             </div>
 
             <div className="flex flex-row gap-2 items-center">
-              <Image src="/star.svg" width={22} height={22} alt="звезда" />
+              <Image src="/star.svg" width={22} height={22} alt="star" />
               <p>{feedback?.totalScore || "---"}/100</p>
             </div>
           </div>
