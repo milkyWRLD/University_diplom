@@ -43,10 +43,10 @@ const AuthForm = ({ type }: { type: FormType }) => {
   });
 
   // 2. Обработчик отправки формы
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  const onSubmit = async (data: z.infer<typeof formSchema>) => {
     try {
       if (type === "sign-up") {
-        const { name, email, password } = values;
+        const { name, email, password } = data;
 
         const userCredential = await createUserWithEmailAndPassword(
           auth,
@@ -61,16 +61,15 @@ const AuthForm = ({ type }: { type: FormType }) => {
           password,
         });
 
-        if (!result?.success) {
-
-          toast.error(result?.message);
+        if (!result.success) {
+          toast.error(result.message);
           return;
         }
 
         toast.success("Аккаунт создан успешно! Пожалуйста, авторизуйтесь.");
         router.push("/sign-in");
       } else {
-        const { email, password } = values;
+        const { email, password } = data;
 
         const userCredential = await signInWithEmailAndPassword(
           auth,
@@ -79,24 +78,24 @@ const AuthForm = ({ type }: { type: FormType }) => {
         );
 
         const idToken = await userCredential.user.getIdToken();
-
         if (!idToken) {
           toast.error("Не удалось получить токен. Попробуйте позже.");
           return;
         }
 
-        await signIn ({
-          email, idToken
-        })
+        await signIn({
+          email,
+          idToken,
+        });
 
-        toast.success("Авторизация прошла успешно!"); 
+        toast.success("Авторизация прошла успешно!");
         router.push("/");
       }
     } catch (error) {
       console.log(error);
       toast.error(`Что-то пошло не так, попробуйте позже: ${error}`);
     }
-  }
+  };
 
   const isSignIn = type === "sign-in";
 
@@ -105,7 +104,6 @@ const AuthForm = ({ type }: { type: FormType }) => {
       <div className="flex flex-col gap-6 card py-14 px-10">
         <div className="flex flex-row gap-2 justify-center">
           <Image src="/logo.svg" alt="logo" height={32} width={38} />
-
           <h2 className="text-primary-100">Собеседник</h2>
         </div>
 
@@ -122,6 +120,7 @@ const AuthForm = ({ type }: { type: FormType }) => {
                 name="name"
                 label="Имя"
                 placeholder="Введите ваше имя"
+                type="text"
               />
             )}
             <FormField

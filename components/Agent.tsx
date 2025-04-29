@@ -6,8 +6,8 @@ import { useRouter } from "next/navigation";
 
 import { cn } from "@/lib/utils";
 import { vapi } from "@/lib/vapi.sdk";
-// import { interviewer } from "@/constants";
-// import { createFeedback } from "@/lib/actions/general.action";
+import { interviewer } from "@/constants";
+import { createFeedback } from "@/lib/actions/general.action";
 
 // Определяем статусы звонка
 enum CallStatus {
@@ -32,7 +32,6 @@ const Agent = ({
   questions,
 }: AgentProps) => {
   const router = useRouter();
-
   const [callStatus, setCallStatus] = useState<CallStatus>(CallStatus.INACTIVE);
   const [messages, setMessages] = useState<SavedMessage[]>([]);
   const [isSpeaking, setIsSpeaking] = useState(false);
@@ -125,8 +124,6 @@ const Agent = ({
         variableValues: {
           username: userName,
           userid: userId,
-          languageCode: "ru-RU", // ✅ добавили русский язык
-          voice: "ru-RU-Standard-A", // ✅ добавили русский голос
         },
       });
     } else {
@@ -140,8 +137,6 @@ const Agent = ({
       await vapi.start(interviewer, {
         variableValues: {
           questions: formattedQuestions,
-          languageCode: "ru-RU", // ✅ добавили русский язык
-          voice: "ru-RU-Standard-A", // ✅ добавили русский голос
         },
       });
     }
@@ -166,7 +161,7 @@ const Agent = ({
             />
             {isSpeaking && <span className="animate-speak" />}
           </div>
-          <h3>AI Interviewer</h3>
+          <h3>AI Ассистент</h3>
         </div>
 
         <div className="card-border">
@@ -210,13 +205,13 @@ const Agent = ({
             />
             <span className="relative">
               {callStatus === "INACTIVE" || callStatus === "FINISHED"
-                ? "Call"
+                ? "Начать"
                 : ". . ."}
             </span>
           </button>
         ) : (
           <button className="btn-disconnect" onClick={handleDisconnect}>
-            End
+            Закончить
           </button>
         )}
       </div>

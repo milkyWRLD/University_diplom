@@ -1,33 +1,32 @@
-import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 
 import { Button } from "@/components/ui/button";
-import { dummyInterviews } from "@/constants";
 import InterviewCard from "@/components/InterviewCard";
+
+import { getCurrentUser } from "@/lib/actions/auth.action";
 import {
-  getCurrentUser,
   getInterviewsByUserId,
   getLatestInterviews,
-} from "@/lib/actions/auth.action";
+} from "@/lib/actions/general.action";
 
-const page = async () => {
+async function Home() {
   const user = await getCurrentUser();
 
-  const [userInterviews, latestInterviews] = await Promise.all([
+  const [userInterviews, allInterview] = await Promise.all([
     getInterviewsByUserId(user?.id!),
     getLatestInterviews({ userId: user?.id! }),
   ]);
 
-  const hasPastInterviews = userInterviews?.length > 0;
-  const hasUpcomingInterviews = latestInterviews?.length > 0;
+  const hasPastInterviews = userInterviews?.length! > 0;
+  const hasUpcomingInterviews = allInterview?.length! > 0;
 
   return (
     <>
       <section className="card-cta">
         <div className="flex flex-col gap-6 max-w-lg">
           <h2>
-            Подготовьтесь к собеседованию с помощью практики с AI ассистентом.
+            Подготовьтесь к собеседованию с помощью практики с AI-ассистентом.
           </h2>
 
           <p className="text-lg">
@@ -42,7 +41,7 @@ const page = async () => {
 
         <Image
           src="/robot.png"
-          alt="robo-dude"
+          alt="Робот-помощник"
           width={400}
           height={400}
           className="max-sm:hidden"
@@ -50,12 +49,20 @@ const page = async () => {
       </section>
 
       <section className="flex flex-col gap-6 mt-8">
-        <h2>Ваши последние собеседования</h2>
+        <h2>Ваши собеседования</h2>
 
         <div className="interviews-section">
           {hasPastInterviews ? (
             userInterviews?.map((interview) => (
-              <InterviewCard {...interview} key={interview.id} />
+              <InterviewCard
+                key={interview.id}
+                userId={user?.id}
+                interviewId={interview.id}
+                role={interview.role}
+                type={interview.type}
+                techstack={interview.techstack}
+                createdAt={interview.createdAt}
+              />
             ))
           ) : (
             <p>Вы ещё не прошли ни одного собеседования</p>
@@ -64,22 +71,28 @@ const page = async () => {
       </section>
 
       <section className="flex flex-col gap-6 mt-8">
-        <h2>Пройдите собеседование</h2>
+        <h2>Доступные собеседования</h2>
 
         <div className="interviews-section">
           {hasUpcomingInterviews ? (
-              latestInterviews?.map((interview) => (
-                <InterviewCard {...interview} key={interview.id} />
-              ))
-            ) : (
-              <p>Здесь ещё нет доступных собеседований</p>
+            allInterview?.map((interview) => (
+              <InterviewCard
+                key={interview.id}
+                userId={user?.id}
+                interviewId={interview.id}
+                role={interview.role}
+                type={interview.type}
+                techstack={interview.techstack}
+                createdAt={interview.createdAt}
+              />
+            ))
+          ) : (
+            <p>На данный момент нет доступных собеседований</p>
           )}
-
         </div>
       </section>
     </>
   );
 }
 
-
-export default page;
+export default Home;
